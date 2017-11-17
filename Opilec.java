@@ -2,17 +2,42 @@ package Zadanie7_8;
 
 import java.util.Random;
 
+/**
+ * This class makes the movement simulation of the opilec
+ * 
+ * @author Mario Alina
+ *
+ */
 public class Opilec {
 
+	/**
+	 * Size of the grid
+	 */
 	private final int grid_x = 20;
 	private final int grid_y = 20;
-	private int[][] mesto;
+
+	private int[][] city;
 	private int position_index_x = 9;
 	private int position_index_y = 9;
+
+	private int previous_position_x;
+	private int previous_position_y;
+
 	private Random random;
 
 	public Opilec() {
-		this.mesto = new int[this.grid_x][this.grid_y];
+		this.city = new int[this.grid_x][this.grid_y];
+	}
+
+	/**
+	 * Geters
+	 */
+	public int get_previous_position_x() {
+		return this.previous_position_x;
+	}
+
+	public int get_previous_position_y() {
+		return this.previous_position_y;
 	}
 
 	public int get_grid_x() {
@@ -38,14 +63,25 @@ public class Opilec {
 	private void move() {
 		this.random = new Random();
 		int random_move = this.random.nextInt(4);
-		if (random_move == 0) {
-			this.move_left();
-		} else if (random_move == 1) {
-			this.move_right();
-		} else if (random_move == 2) {
-			this.move_up();
-		} else if (random_move == 3) {
-			this.move_down();
+
+		/*
+		 * Here we save the previous positon so we can acces it from OpilecGui
+		 */
+		this.previous_position_x = this.position_index_x;
+		this.previous_position_y = this.position_index_y;
+
+		try {
+			if (random_move == 0) {
+				this.move_left();
+			} else if (random_move == 1) {
+				this.move_right();
+			} else if (random_move == 2) {
+				this.move_up();
+			} else if (random_move == 3) {
+				this.move_down();
+			}
+		} catch (IndexOutOfBoundsException e1) {
+			// ignore errors
 		}
 		this.neighbourhood_visited();
 
@@ -75,7 +111,7 @@ public class Opilec {
 	 * @return false if opilec hasn't been on the positon yet, return true otherwise
 	 */
 	public boolean is_visited(int index_x, int index_y) {
-		if (this.mesto[index_x][index_y] == 0) {
+		if (this.city[index_x][index_y] == 0) {
 			return false;
 
 		} else {
@@ -88,7 +124,7 @@ public class Opilec {
 	 * opilec has "steped" there.
 	 */
 	private void neighbourhood_visited() {
-		this.mesto[this.position_index_x][this.position_index_y] = 1;
+		this.city[this.position_index_x][this.position_index_y] = 1;
 	}
 
 	/**
