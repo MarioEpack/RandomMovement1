@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
- * This class is used to draw the customized JPanels in a certain way JFrame in
+ * This class is used to draw the customized JPanels in a certain way, JFrame in
  * OpilecGui is filled with these
  * 
  * @author Mario Alina
