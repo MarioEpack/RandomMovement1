@@ -3,12 +3,12 @@ package Zadanie7_8;
 import java.util.Random;
 
 /**
- * This class makes the movement simulation of the opilec
+ * This class makes the movement simulation of the drunk man
  * 
  * @author Mario Alina
  *
  */
-public class Opilec {
+public class Drunk {
 
 	/**
 	 * Size of the grid
@@ -16,6 +16,9 @@ public class Opilec {
 	private final int grid_x = 20;
 	private final int grid_y = 20;
 
+	/**
+	 * int Array used for simulation Drunk man's exact position
+	 */
 	private int[][] city;
 	private int position_index_x = 9;
 	private int position_index_y = 9;
@@ -25,47 +28,74 @@ public class Opilec {
 
 	private Random random;
 
-	public Opilec() {
+	public Drunk() {
 		this.city = new int[this.grid_x][this.grid_y];
 	}
 
 	/**
-	 * Geters
+	 * Getter
+	 * 
+	 * @return previous position_x of the drunk man
 	 */
 	public int get_previous_position_x() {
 		return this.previous_position_x;
 	}
 
+	/**
+	 * Getter
+	 * 
+	 * @return previous position_y of the drunk man
+	 */
 	public int get_previous_position_y() {
 		return this.previous_position_y;
 	}
 
+	/**
+	 * Getter
+	 * 
+	 * @return grid/array size_x
+	 */
 	public int get_grid_x() {
 		return this.grid_x;
 	}
 
+	/**
+	 * Getter
+	 * 
+	 * @return grid/array size_y
+	 */
 	public int get_grid_y() {
 		return this.grid_y;
 	}
 
+	/**
+	 * Getter
+	 * 
+	 * @return current position_x of the drunk man
+	 */
 	public int get_position_index_x() {
 		return this.position_index_x;
 	}
 
+	/**
+	 * Getter
+	 * 
+	 * @return current position_y of the drunk man
+	 */
 	public int get_position_index_y() {
 		return this.position_index_y;
 	}
 
 	/**
-	 * This methods is called in the "simulate_motion" method, to change position of
-	 * the opilec.
+	 * This method is called in the "simulate_motion" method, to change position of
+	 * the drunk.
 	 */
 	private void move() {
 		this.random = new Random();
 		int random_move = this.random.nextInt(4);
 
 		/*
-		 * Here we save the previous positon so we can acces it from OpilecGui
+		 * Here we save the previous position so we can access it from DrunkGui
 		 */
 		this.previous_position_x = this.position_index_x;
 		this.previous_position_y = this.position_index_y;
@@ -87,8 +117,8 @@ public class Opilec {
 
 	}
 
-	/**
-	 * Methods to change the opilec's position.
+	/*
+	 * Private methods to change the drunk's position.
 	 */
 	private void move_up() {
 		this.position_index_y -= 1;
@@ -104,19 +134,6 @@ public class Opilec {
 
 	private void move_right() {
 		this.position_index_x += 1;
-	}
-
-	/**
-	 * 
-	 * @return false if opilec hasn't been on the positon yet, return true otherwise
-	 */
-	public boolean is_visited(int index_x, int index_y) {
-		if (this.city[index_x][index_y] == 0) {
-			return false;
-
-		} else {
-			return true;
-		}
 	}
 
 	/**
