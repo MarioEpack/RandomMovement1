@@ -9,7 +9,7 @@ public class OpilecMain {
 			@Override
 			public void run() {
 				try {
-					OpilecGui opilec = new OpilecGui();
+					OpilecGui drunk = new OpilecGui();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
