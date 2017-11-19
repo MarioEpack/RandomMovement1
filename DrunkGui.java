@@ -10,12 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 /**
- * Creates the simple gui and makes use of the simulation of the class "Opilec"
+ * Creates the simple gui and makes use of the simulation class "Drunk"
  * 
  * @author Mario Alina
  *
  */
-public class OpilecGui implements ActionListener {
+public class DrunkGui implements ActionListener {
 
 	private final int window_size_x = 800;
 	private final int window_size_y = 600;
@@ -25,14 +25,21 @@ public class OpilecGui implements ActionListener {
 	private Neighbourhood[][] city;
 	private Neighbourhood neighbourhood;
 	private Timer timer;
-	/*
-	 * Musel som spravit triedu na poziciu opilca, pretoze paintComponent vykresluje
-	 * vsetko okamzite
+	/**
+	 * Speed that the drunk man is walking in milliseconds
 	 */
-	private OpilecPosition actual_position = new OpilecPosition();
-	private Opilec opilec = new Opilec();
+	private final int walking_speed = 500;
+	/**
+	 * Initialize the Drunk walking simulation class
+	 */
+	private Drunk drunk = new Drunk();
 
-	public OpilecGui() throws IOException {
+	/**
+	 * Non-parametric constructor, calls method init()
+	 * 
+	 * @throws IOException
+	 */
+	public DrunkGui() throws IOException {
 		this.init();
 	}
 
@@ -41,7 +48,7 @@ public class OpilecGui implements ActionListener {
 	 */
 	private void make_board() {
 		this.frame = new JFrame("Opilec");
-		this.grid = new GridLayout(this.opilec.get_grid_x(), this.opilec.get_grid_y(), 3, 3);
+		this.grid = new GridLayout(this.drunk.get_grid_x(), this.drunk.get_grid_y(), 3, 3);
 		this.frame.setLocationRelativeTo(null);
 		this.frame.setSize(this.window_size_x, this.window_size_y);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,10 +63,10 @@ public class OpilecGui implements ActionListener {
 	 * @throws IOException
 	 */
 	private void fill_board() throws IOException {
-		this.city = new Neighbourhood[this.opilec.get_grid_x()][this.opilec.get_grid_y()];
+		this.city = new Neighbourhood[this.drunk.get_grid_x()][this.drunk.get_grid_y()];
 
-		for (int i = 0; i < this.opilec.get_grid_x(); i++) {
-			for (int j = 0; j < this.opilec.get_grid_y(); j++) {
+		for (int i = 0; i < this.drunk.get_grid_x(); i++) {
+			for (int j = 0; j < this.drunk.get_grid_y(); j++) {
 				this.neighbourhood = new Neighbourhood();
 				this.neighbourhood.setLayout(new BorderLayout());
 				this.neighbourhood.setVisible(false);
@@ -76,8 +83,8 @@ public class OpilecGui implements ActionListener {
 	 * Initializes a swing timer
 	 */
 	private void make_timer() {
-		this.timer = new Timer(100, this);
-		this.timer.setInitialDelay(100);
+		this.timer = new Timer(this.walking_speed, this);
+		this.timer.setInitialDelay(500);
 	}
 
 	/**
@@ -94,16 +101,21 @@ public class OpilecGui implements ActionListener {
 	}
 
 	/**
-	 * Swing method needed for the timer Code inside is a loop currently triggering
-	 * every 0.1, --> can be changed in the method make_timer()
+	 * actionPerformed is a swing method needed for the timer, code inside is a loop
+	 * currently triggering every see@, --> "int this.walking_speed atribute"
+	 * 
 	 */
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int x = this.opilec.get_position_index_x();
-		int y = this.opilec.get_position_index_y();
-		int previous_x = this.opilec.get_previous_position_x();
-		int previous_y = this.opilec.get_previous_position_y();
+		/*
+		 * variables that hold the current and previous position of the drunk man, by
+		 * using get-ers from "Drunk Class"
+		 */
+		int x = this.drunk.get_position_index_x();
+		int y = this.drunk.get_position_index_y();
+		int previous_x = this.drunk.get_previous_position_x();
+		int previous_y = this.drunk.get_previous_position_y();
 
 		try {
 			this.city[previous_x][previous_y].draw_green(false);
@@ -114,7 +126,7 @@ public class OpilecGui implements ActionListener {
 			this.city[x][y].repaint();
 
 			this.city[0][0].setVisible(false);
-			this.opilec.simulate_motion();
+			this.drunk.simulate_motion();
 
 		} catch (InterruptedException | IndexOutOfBoundsException e1) {
 			System.out.println("Opilec is out of bounds");
